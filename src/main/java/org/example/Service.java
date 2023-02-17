@@ -5,8 +5,8 @@ import java.util.Formatter;
 
 public class Service {
 
-    static int crosswordLenght = 6;
-    static int crosswordHeight = 5;
+    static int crosswordLenght = 5;
+    static int crosswordHeight = 4;
     static Field[][] crossword = new Field[crosswordHeight][crosswordLenght];
     static int counter = 1;
 
@@ -18,6 +18,7 @@ public class Service {
                     if ((isNextWordPossible(y, x))) {
                         findingTheRightWordAndAddingIt(y, x);
                     } else {
+                        crosswordCounterIncr();
                         printCrossword();
                         clearCrossword();
                         fillCrossword();
@@ -145,7 +146,7 @@ public class Service {
 
 
     private boolean isFieldOutOfBounds(int y, int x) {
-        return (y >= crosswordHeight) || (x >= crosswordLenght);
+        return (y >= crosswordHeight -1) || (x >= crosswordLenght-1);
     }
 
     private boolean isFieldWithinBounds(int y, int x) {
@@ -158,7 +159,7 @@ public class Service {
     }
 
     private boolean isNextWordPossible(int y, int x) {
-        if ((y > crosswordHeight - 3) && (x > crosswordLenght - 3)) {
+        if ((y > crosswordHeight - 4) && (x > crosswordLenght - 4)) {
             return false;
         }
         return true;
@@ -202,11 +203,15 @@ public class Service {
 
     private int randomLenght(int y, int x, boolean isHorizontal) {
         try {
-            int lenght = new Random().nextInt(maxPossibleLenght(y, x, isHorizontal) + 1);
-            return ((lenght < 7) && (lenght > 1)) ? lenght : randomLenght(y, x, isHorizontal);
+            int maxLenght = maxPossibleLenght(y, x, isHorizontal);
+            if (maxLenght <5) {
+                return maxLenght;
+            }
+            int[] possibleLenght= {maxLenght, maxLenght-1, maxLenght -2};
+            int lenght = possibleLenght [new Random().nextInt(3 )];
+            return lenght;
         } catch (StackOverflowError e) {
             crosswordCounterIncr();
-            printCrossword();
             clearCrossword();
             fillCrossword();
         }

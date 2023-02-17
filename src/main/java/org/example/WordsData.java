@@ -20,11 +20,11 @@ public class WordsData {
     String filepath6LetterWords = "C:\\Users\\USER\\Downloads\\krzyzowki-master\\krzyzowki-master\\6.txt";
 
     public void loadWordsFromFiles() {
-        words2letter=loadWordsFromFile(filepath2LetterWords);
-        words3letter=loadWordsFromFile(filepath3LetterWords);
-        words4letter=loadWordsFromFile(filepath4LetterWords);
-        words5letter=loadWordsFromFile(filepath5LetterWords);
-        words6letter=loadWordsFromFile(filepath6LetterWords);
+        words2letter=cleanWordLists(loadWordsFromFile(filepath2LetterWords));
+        words3letter=cleanWordLists(loadWordsFromFile(filepath3LetterWords));
+        words4letter=cleanWordLists(loadWordsFromFile(filepath4LetterWords));
+        words5letter=cleanWordLists(loadWordsFromFile(filepath5LetterWords));
+        words6letter=cleanWordLists(loadWordsFromFile(filepath6LetterWords));
     }
 
     public List<String> loadWordsFromFile(String filepath) {
@@ -48,6 +48,11 @@ public class WordsData {
         } else {
             return words6letter;
         }
+    }
+    public List<String> cleanWordLists (List<String> wordList){
+        wordList.removeIf(str->str.contains("[^ABCDEFGHIJKLMNOPRSTUVWXYZ]"));
+        System.out.println(wordList);
+        return wordList;
     }
 
     public String randomWord(int lenght) {
